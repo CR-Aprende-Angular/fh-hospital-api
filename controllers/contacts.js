@@ -11,7 +11,7 @@ const getContacts = async(req, res) => {
 
     const [ contacts, total ] = await Promise.all([
         Contact
-            .find({}, 'nombre email role google img')
+            .find({}, 'name email phone img')
             .skip( desde )
             .limit( 5 ),
 
@@ -26,14 +26,14 @@ const getContacts = async(req, res) => {
     });
 
 }
-/*
-const crearUsuario = async(req, res = response) => {
 
-    const { email, password } = req.body;
+const createContact = async(req, res = response) => {
+
+    //const { nombre, email, phone } = req.body;
 
     try {
 
-        const existeEmail = await Usuario.findOne({ email });
+        /*const existeEmail = await Usuario.findOne({ email });
 
         if ( existeEmail ) {
             return res.status(400).json({
@@ -42,24 +42,26 @@ const crearUsuario = async(req, res = response) => {
             });
         }
 
-        const usuario = new Usuario( req.body );
+        const usuario = new Usuario( req.body );*/
+        const contact = new Contact( req.body );
     
-        // Encriptar contraseña
+        /*/ Encriptar contraseña
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync( password, salt );
     
     
         // Guardar usuario
-        await usuario.save();
+        await usuario.save();*/
+        await contact.save();
 
         // Generar el TOKEN - JWT
-        const token = await generarJWT( usuario.id );
+        //const token = await generarJWT( usuario.id );
 
 
         res.json({
             ok: true,
-            usuario,
-            token
+            contact
+            //token
         });
 
 
@@ -74,7 +76,7 @@ const crearUsuario = async(req, res = response) => {
 
 }
 
-
+/*
 const actualizarUsuario = async (req, res = response) => {
 
     // TODO: Validar token y comprobar si es el usuario correcto
@@ -174,7 +176,8 @@ const borrarUsuario = async(req, res = response ) => {
 
 
 module.exports = {
-    getContacts /*,
+    getContacts,
+    createContact /*,
     crearUsuario,
     actualizarUsuario,
     borrarUsuario */
