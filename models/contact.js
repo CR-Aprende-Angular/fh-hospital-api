@@ -8,12 +8,12 @@ const ContactSchema = Schema({
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+        //required: true,
+        //unique: true
     },
     phone: {
         type: String,
-        required: true,
+        //required: true,
     },
     img: {
         type: String,
@@ -22,8 +22,8 @@ const ContactSchema = Schema({
 
 
 ContactSchema.method('toJSON', function() {
-    const { __v, _id, password, ...object } = this.toObject();
-    object.uid = _id;
+    const { __v, ...object } = this.toObject();
+    //object.uid = _id;
     return object;
 })
 

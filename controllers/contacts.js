@@ -27,6 +27,7 @@ const getContacts = async(req, res) => {
 
 }
 
+
 const createContact = async(req, res = response) => {
 
     //const { nombre, email, phone } = req.body;
@@ -76,8 +77,8 @@ const createContact = async(req, res = response) => {
 
 }
 
-/*
-const actualizarUsuario = async (req, res = response) => {
+
+const updateContact = async (req, res = response) => {
 
     // TODO: Validar token y comprobar si es el usuario correcto
 
@@ -86,43 +87,48 @@ const actualizarUsuario = async (req, res = response) => {
 
     try {
 
-        const usuarioDB = await Usuario.findById( uid );
+        const contactDB = await Contact.findById( uid );
 
-        if ( !usuarioDB ) {
+        if ( !contactDB ) {
             return res.status(404).json({
                 ok: false,
-                msg: 'No existe un usuario por ese id'
+                msg: 'No existe un contacto para ese id'
             });
         }
 
         // Actualizaciones
-        const { password, google, email, ...campos } = req.body;
+        //const { name, phone, email, ...campos } = req.body;
 
-        if ( usuarioDB.email !== email ) {
+        /*if ( contactDB.email !== email ) {
 
-            const existeEmail = await Usuario.findOne({ email });
+            const existeEmail = await Contact.findOne({ email });
             if ( existeEmail ) {
                 return res.status(400).json({
                     ok: false,
-                    msg: 'Ya existe un usuario con ese email'
+                    msg: 'Ya existe un contacto con ese email'
                 });
             }
         }
         
-        if ( !usuarioDB.google ){
+        /*if ( !usuarioDB.google ){
             campos.email = email;
         } else if ( usuarioDB.email !== email ) {
             return res.status(400).json({
                 ok: false,
                 msg: 'Usuario de google no pueden cambiar su correo'
             });
+        }*/
+
+        const chgContact = {
+            ...req.body,
+            id: uid
         }
 
-        const usuarioActualizado = await Usuario.findByIdAndUpdate( uid, campos, { new: true } );
+        const updatedContact = await Contact.findByIdAndUpdate( uid, chgContact, { new: true } );
 
         res.json({
             ok: true,
-            usuario: usuarioActualizado
+            contact: updatedContact
         });
 
         
@@ -137,27 +143,27 @@ const actualizarUsuario = async (req, res = response) => {
 }
 
 
-const borrarUsuario = async(req, res = response ) => {
+const deleteContact = async(req, res = response ) => {
 
     const uid = req.params.id;
 
     try {
 
-        const usuarioDB = await Usuario.findById( uid );
+        const contactDB = await Contact.findById( uid );
 
-        if ( !usuarioDB ) {
+        if ( !contactDB ) {
             return res.status(404).json({
                 ok: false,
-                msg: 'No existe un usuario por ese id'
+                msg: 'No existe un usuario para ese id'
             });
         }
 
-        await Usuario.findByIdAndDelete( uid );
+        await Contact.findByIdAndDelete( uid );
 
         
         res.json({
             ok: true,
-            msg: 'Usuario eliminado'
+            msg: 'Contacto eliminado'
         });
 
     } catch (error) {
@@ -172,12 +178,13 @@ const borrarUsuario = async(req, res = response ) => {
 
 
 }
-*/
 
 
 module.exports = {
     getContacts,
-    createContact /*,
+    createContact,
+    updateContact,
+    deleteContact /*,
     crearUsuario,
     actualizarUsuario,
     borrarUsuario */
